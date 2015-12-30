@@ -43,6 +43,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 	this.domElement = _canvas;
 	this.context = null;
+	this.autoSize = false;
 
 	// clearing
 
@@ -1075,6 +1076,21 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 			console.error( 'THREE.WebGLRenderer.render: camera is not an instance of THREE.Camera.' );
 			return;
+
+		}
+
+		if ( this.autoSize ) {
+
+			var clientWidth = _canvas.clientWidth;
+			var clientHeight = _canvas.clientHeight;
+
+			if ( _canvas.width !== clientWidth || _canvas.height !== clientWidth ) {
+
+				this.setSize( clientWidth, clientHeight, false );
+				camera.aspect = clientWidth / clientHeight;
+				camera.updateProjectionMatrix();
+
+			}
 
 		}
 
